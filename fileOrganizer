@@ -1,0 +1,36 @@
+import os
+import shutil
+
+sourceDirectory = "C:/Users/Akash Gadicherla/Downloads" #Source directory where all the files that need to be organized are located
+
+destinationDirectory = "C:/Users/Akash Gadicherla" #Where all the files will be organized/folders will be created
+
+extension_to_folder = { #maps different extensions to different folders
+    ".pdf": "PDFs",
+    ".xlsx": "Excel",
+    ".docx": "Word",
+    ".jpg": "Images",
+    ".png": "Images",
+    ".txt": "Text",
+    any: "Downloads"
+}
+
+for filename in os.listdir(sourceDirectory): #iterates through all the files from the soure directory
+
+    sourcePath = os.path.join(sourceDirectory, filename) #Joins the directory path and the filename to determine the exact location of the file
+
+    if os.path.isfile(sourcePath): #Checks to see whether filename is a file
+
+        _, fileExtension = os.path.splitext(filename) #Splits name of the file (which is stored in the placeholder '_' and the file extension)
+        
+        destinationFolder = extension_to_folder.get(fileExtension, "Other") #Finds the destination folder using the mapping done previously
+
+        destinationPath = os.path.join(destinationDirectory, destinationFolder) #Finds filepath to destination folder and sets it to destination_folder_path
+
+        os.makedirs(destinationPath, exists=True) #Checks to see whether a folder has been made already
+
+        destinationPath = os.path.join(destinationPath, filename) #Joins the destination folder path with the filename
+
+        shutil.move(sourcePath, destinationPath) #Moves file from the source to its destination
+
+print("Files organized!")
